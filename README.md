@@ -17,6 +17,40 @@ OpenFST + Thrax have to be installed on the compilation host system.
 - OpenFST library can be found at http://www.openfst.org/twiki/bin/view/FST/WebHome. Version 1.7.7 should be used.
 - Thrax can be found at http://www.opengrm.org/twiki/bin/view/GRM/ThraxDownload. Version 1.3.3 should be used.
 
+Installation steps on Mac OSX.
+
+#### OpenFST:
+
+```
+# Download OpenFST 1.7.7. from the link above.
+# On MacOS it is better to install OpenFST and Thrax in a user specific directory instead of the default /usr/local/
+# Example: /Users/myname/install
+# When configuring OpenFST it is important to add the flag --enable-grm to be able to use Thrax
+% cd openfst-1.7.7
+openfst-1.7.7 % ./configure --prefix=<my/path/install> --enable-grm
+openfst-1.7.7 % make -j
+openfst-1.7.7 % make install
+```
+
+#### Thrax
+
+```
+# Download Thrax 1.3.3 from the link above, unpack.
+# Use the same install directory as defined for OpenFST, in the end add Thrax path to $PATH so the Thrax command-line
+# tools will be available:
+% cd thrax-1.3.3
+thrax-1.3.3 % export LD_LIBRARY_PATH=<my/path/install/lib>
+thrax-1.3.3 % export CFLAGS='-I <my/path/install/include/>'
+thrax-1.3.3 % export CXXFLAGS=$CFLAGS
+thrax-1.3.3 % export LDFLAGS='-L <my/path/install/lib/>'
+thrax-1.3.3 % ./configure --includedir=<my/path/install/include/ --libdir=<my/path/install/lib/ --prefix=<my/path/install>
+thrax-1.3.3 % make -j
+thrax-1.3.3 % make install
+% export PATH=<my/path/install/bin>:$PATH
+```
+
+
+
 ### Compilation + Installation
 Note, that currently patching of the Configuration files in both projects have to be done to cleanly compile them.
 Please refer to the Dockerfile for the exact execution steps of compiling all prerequisites.
@@ -29,13 +63,13 @@ The module Boost::locale is used for UTF-8 text normalization and Boost::filesys
 This project uses CMake for compilation. If you have installed all prerequisites at standard paths, just do:
 
 ```
-mkdir build && cd build && cmake .. && make
+g2p-thrax % mkdir build && cd build && cmake .. && make
 ```
 
-If you have installed the prerequisites at non-standard paths, use the following CMake options:
+If you have installed the prerequisites at non-standard paths, as recommended above, use the following CMake options:
 
 ```
-mkdir build && cd build && cmake -DCMAKE_PREFIX_PATH=<your root folder for installed packages> .. && make
+g2p-thrax % mkdir build && cd build && cmake -DCMAKE_PREFIX_PATH=<your root folder for installed packages> .. && make
 ``` 
 
 # Execution
@@ -46,6 +80,19 @@ separated by newline. The token list will be transcribed and written to stdout.
 Additionally, the grammar file has to be provided to the thraxg2p tool by the option `--far`.
 The default is to search for the file [g2p.far](g2p.far) in the current working directory. This binary file is in the format
 of an OpenFST archive and provided together with this project. It's the compiled grammar of [g2p.grm](g2p.grm).
+
+#### Example
+```
+# If you change a .grm file, compile a new .far file for the grammar. The following creates g2p.far: 
+g2p-thrax/grammars % thraxmakedep g2p.grm
+g2p-thrax/grammars % make
+# Try the grammar:
+g2p-thrax % thraxrewrite-tester --far=grammars/g2p.far --rules=G2P --input_mode=utf8 --output_mode=utf8
+Input string: hjálp
+Output string: C au l_0 p
+Input string:
+```
+Exit the command line mode with `^C`
 
 # Limitations
 The tool is not suitable for compound words, often found in Icelandic language. Therefore, splitting of compounds is
