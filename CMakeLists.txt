@@ -7,6 +7,7 @@ set(default_build_type "Release")
 
 # find dependencies for compilation
 find_library(OPENFST NAMES fst)
+find_library(OPENFST_FAR NAMES fstfar)
 find_library(THRAX NAMES libthrax.a)
 find_program(THRAXCOMPILER NAMES thraxcompiler)
 
@@ -62,6 +63,7 @@ target_include_directories(thraxg2plib PUBLIC
 
 target_link_libraries(thraxg2plib PUBLIC
         ${OPENFST}
+        ${OPENFST_FAR}
         ${THRAX}
         Boost::locale
         Boost::filesystem)
