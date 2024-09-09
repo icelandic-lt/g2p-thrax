@@ -96,7 +96,7 @@ Exit the command line mode with `^C`
 
 # Limitations
 The tool is not suitable for compound words, often found in Icelandic language. Therefore, splitting of compounds is
-required as a pre processing step.
+required as a pre-processing step.
 
 # Testing
 Run `make test` inside the build directory for running the tests of the project. The tests are meant especially to
@@ -112,10 +112,10 @@ lists provided by the command-line argument `--word_file`.
 
 ## Trouble shooting & inquiries
 
-This application is still in development. If you encounter any errors, feel free to open an issue inside the
-[issue tracker](https://github.com/grammatek/g2p-thrax/issues). You can also [contact us](mailto:info@grammatek.com) via email.
+If you encounter any errors, feel free to open an issue inside the
+[issue tracker](https://github.com/icelandic-lt/g2p-thrax/issues). You can also [contact us](mailto:info@grammatek.com) via email.
 
 ## Contributing
 
 You can contribute to this project by forking it, creating a private branch and opening a new
- [pull request](https://github.com/grammatek/g2p-thrax/pulls).
+ [pull request](https://github.com/icelandic-lt/g2p-thrax/pulls).
